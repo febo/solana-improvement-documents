@@ -21,9 +21,9 @@ currently specified as a `f64`.
 
 More specifically, it proposes to rely only on the `lamports_per_byte_year` (to 
 be renamed to `lamports_per_byte`), which is a `u64` value, doubling the current
-value of `lamports_per_byte_year` and set the  `exemption_threshold` to `1.0`,
-deprecating its use in SDKs and onchain programs moving forward without 
-affecting the existing API.
+value of `lamports_per_byte_year` and set the  `exemption_threshold` to `1.0`.
+The `exemption_threshold` will be deprecated in both SDKs and onchain programs
+moving forward without impacting the existing API.
 
 ## Motivation
 
