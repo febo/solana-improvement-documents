@@ -39,12 +39,12 @@ N/A.
 
 Apart from the original SPL Token instructions, this proposal adds two additional instructions to the program:
 
-1. `withdraw_excess_lamports` (instruction discriminator `38`): allow recovering "bricked" SOL from mint accounts (e.g., USDC mint as `~323` SOL in excess). The logic of this instruction is the same as the current SPL Token-2022 instruction. 
+1. `withdraw_excess_lamports` (instruction discriminator `38`): allow recovering "bricked" SOL from mint (e.g., USDC mint as `~323` SOL in excess) and multisig accounts. The logic of this instruction is the same as the current SPL Token-2022 instruction. 
 2. `batch` (instruction discriminator `255`): enable efficient CPI interaction with the Token program. This is a new instruction that can execute a variable number on Token instructions in a single invocation of the Token program. Therefore, the CPI invoke units (currently `1000` CU) are only consumed once, instead of each CPI instruction – this significantly improves the CUs required to perform multiple Token instructions in a CPI context.
 
 Note that `withdraw_excess_lamports` discriminator matches the value used in SPL Token-2022, while `batch` has a driscriminator value that is not used in either SPL Token nor Token-2022.
 
-The program and its program data will be loaded into accounts, `$PTOKEN_PROGRAM_ACCOUNT` and `$PTOKEN_PROGRAM_DATA_ACCOUNT` respectively, prior to enablind the feature gate that triggers the replacement.
+The program and its program data will be loaded into accounts, `$PTOKEN_PROGRAM_ACCOUNT` and `$PTOKEN_PROGRAM_DATA_ACCOUNT` respectively, prior to enabling the feature gate that triggers the replacement.
 
 When the feature gate `XXXXXXXXXXXXXX` is enabled, the runtime needs to:
 
