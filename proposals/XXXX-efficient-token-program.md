@@ -37,10 +37,24 @@ N/A.
 
 `p-token` is a like-for-like efficient re-implementation of the Token program. It is `no_std` (no heap memory allocations are made in the program) and uses zero-copy access for instruction and account data. Since it follows the same instructions and accounts layout, it does not require any changes to client code – it works as a drop-in replacement.
 
+Apart from the original SPL Token instructions, this proposal adds two additional instructions to the program:
+
+1. `withdraw_excess_lamports` (instruction discriminator `38`): allow recovering "bricked" SOL from mint accounts (e.g., USDC mint as `~323` SOL in excess). The logic of this instruction is the same as the current SPL Token-2022 instruction. 
+2. `batch` (instruction discriminator `255`): enable efficient CPI interaction with the Token program. This is a new instruction that can execute a variable number on Token instructions in a single invocation of the Token program. Therefore, the CPI invoke units (currently `1000` CU) are only consumed once, instead of each CPI instruction – this significantly improves the CUs required to perform multiple Token instructions in a CPI context.
+
+Note that `withdraw_excess_lamports` discriminator matches the value used in SPL Token-2022, while `batch` has a driscriminator value that is not used in either SPL Token nor Token-2022.
+
+The program and its program data will be loaded into accounts, `$PTOKEN_PROGRAM_ACCOUNT` and `$PTOKEN_PROGRAM_DATA_ACCOUNT` respectively, prior to enablind the feature gate that triggers the replacement.
+
+When the feature gate `XXXXXXXXXXXXXX` is enabled, the runtime needs to:
+
+1. Replace `TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA` program with `$PTOKEN_PROGRAM_ACCOUNT` using the upgradable loader.
+2. Replace the contents of `$TOKENKEG_PROGRAM_DATA_ADDRESS` with the contents of `$PTOKEN_PROGRAM_DATA_ACCOUNT`. The `$TOKENKEG_PROGRAM_DATA_ADDRESS` address is defined as `PDA([TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA], upgradeable_loader_id)`.
+
 
 ## Alternatives Considered
 
-As an alternative to replace the current version of SPL Token, `p-token` could be deployed to a new address and encourage people to transition to that program. This would hinder its adoption and benefits, since people would be very slow to adopt the new program, if they adopt it at all.
+As an alternative to replace the current version of SPL Token, `p-token` could be deployed to a new address and people can be encouraged to transition to that program. This would hinder its adoption and benefits, since people would be very slow to adopt the new program, if they adopt it at all.
 
 ## Impact
 
