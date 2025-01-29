@@ -1,6 +1,6 @@
 ---
 simd: 'XXXX'
-title: `p-token` – Efficient Token program
+title: 'p-token: Efficient Token program'
 authors:
   - (fill in with names of authors)
 category: Standard
