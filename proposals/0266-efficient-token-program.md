@@ -152,7 +152,7 @@ implementation.
 
 Any potential risk will be mitigated by extensive testing and auditing:
 * ✅ **[COMPLETED]** Existing SPL Token test [fixtures](https://github.com/solana-program/token/blob/main/.github/workflows/main.yml#L284-L313)
-* ✅ **[COMPLETED]** Fuzzing using Firedancer tooling ([solfuzz_agave](https://github.com/firedancer-io/solfuzz-agave)): this includes executing previous mainnet instructions with and without random modifications and matching the complete program output (program result and account state)
+* ✅ **[COMPLETED]** Fuzzing using Firedancer tooling ([solfuzz_agave](https://github.com/firedancer-io/solfuzz-agave)): this includes executing past mainnet instructions &mdash; with or without random modifications amounting to millions of individual instructions &mdash; and verifying that the complete program output (i.e., both the program result and accounts' state) matches.
 * ⏳ *[IN PROGRESS]* Formal Verification
 * ⏳ *[IN PROGRESS]* Audits
 
